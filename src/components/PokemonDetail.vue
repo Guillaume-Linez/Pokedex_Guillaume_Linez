@@ -1,14 +1,41 @@
 <template>
   <div class="detail">
     <div class="detail-view card">
-      <div class="data card-body"></div>
-      <button class="close">Fermer</button>
+      <div class="data card-body">
+        <img :src="img_url+curentPokemon.name+'.png'" alt="">
+        <h2>{{curentPokemon.name}}</h2>
+        <h2 v-for="item in curentPokemonTypes" :key="item.type">{{item.name}}</h2>
+      </div>
+      <button class="close" v-on:click="closedetails()">Fermer</button>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import config from '../config/config.json'
+import axios from 'axios';
+export default {
+  props: ['pokemonURL'],
+  data:() => {
+    return {
+      curentPokemon: {},
+      curentPokemonTypes: {},
+      img_url: config.IMG_URL
+    }
+  },
+  mounted(){
+    axios.get(this._props.pokemonURL).then((response)=>{
+      console.log(this._props.pokemonURL)
+      this._data.curentPokemon = response.data;
+      console.log(this._data.curentPokemon.types)
+    })
+  },
+  methods: {
+    closedetails(){
+      this.$emit("closeDetails")
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>

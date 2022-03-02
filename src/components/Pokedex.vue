@@ -1,7 +1,10 @@
 <template>
   <div class="container">
     <PokemonSearch />
-    <PokemonDetail />
+    <PokemonDetail v-if="isShow"
+    @closeDetails="closeDetails"
+    :pokemonURL="pokemon"
+    />
     <PokemonList />
   </div>
 </template>
@@ -17,7 +20,22 @@ export default {
     PokemonList,
     PokemonSearch,
   },
-};
+  data:() => {
+    return {
+      pokemon: "https://pokeapi.co/api/v2/pokemon/charizard",
+      isShow: true
+    }
+  },
+  methods: {
+    showDetails(pokemon){
+      this.isShow = true,
+      this.pokemon = pokemon
+    },
+    closeDetails(){
+      this.isShow = false
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

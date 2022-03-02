@@ -1,9 +1,31 @@
 <template>
-  <div class="list"></div>
+  <div class="list">
+    <article v-for="item in pokemon" :key="item.name">
+      <h3>
+      {{ item.name }}
+    </h3>
+    <img :src="img_url+item.name+'.png'" alt="">
+    </article>
+  </div>
 </template>
 
 <script>
-export default {};
+import axios from 'axios';
+import config from '../config/config.json';
+export default {
+  data:() => {
+    return {
+      pokemon: [],
+      img_url: config.IMG_URL
+    }
+  },
+  mounted(){
+    axios.get(config.API_URL+'/pokemon').then((response)=>{
+      console.log(response)
+      this.pokemon = response.data.results
+    })
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -41,4 +63,3 @@ img {
   height: 96px;
 }
 </style>
-

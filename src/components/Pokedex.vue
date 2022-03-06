@@ -2,10 +2,12 @@
   <div class="container">
     <PokemonSearch />
     <PokemonDetail v-if="isShow"
+    :pokemonURL="pokemon.url"
     @closeDetails="closeDetails"
-    :pokemonURL="pokemon"
     />
-    <PokemonList />
+    <PokemonList 
+    @showDetails="showDetails"
+    />
   </div>
 </template>
 
@@ -22,8 +24,8 @@ export default {
   },
   data:() => {
     return {
-      pokemon: "https://pokeapi.co/api/v2/pokemon/charizard",
-      isShow: true
+      pokemon: {},
+      isShow: false
     }
   },
   methods: {
@@ -33,6 +35,7 @@ export default {
     },
     closeDetails(){
       this.isShow = false
+      this.pokemon = {}
     }
   }
 }

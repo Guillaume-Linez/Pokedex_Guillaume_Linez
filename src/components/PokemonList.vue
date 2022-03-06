@@ -1,6 +1,6 @@
 <template>
   <div class="list">
-    <article v-for="item in pokemon" :key="item.name">
+    <article v-for="item in pokemon" :key="item" @click="showdetails(item)">
       <h3>
       {{ item.name }}
     </h3>
@@ -20,11 +20,16 @@ export default {
     }
   },
   mounted(){
-    axios.get(config.API_URL+'/pokemon').then((response)=>{
-      console.log(response)
+    axios.get(config.API_URL+'/pokemon/?offset=20&limit=150').then((response)=>{
       this.pokemon = response.data.results
     })
   },
+  methods: {
+    showdetails(pokemon){
+      //console.log(pokemon)
+      this.$emit("showDetails", pokemon)
+    }
+  }
 };
 </script>
 

@@ -2,9 +2,17 @@
   <div class="detail">
     <div class="detail-view card">
       <div class="data card-body">
-        <img :src="img_url+curentPokemon.name+'.png'" alt="">
+        <img class="image" :src="img_url+curentPokemon.name+'.png'" alt="">
         <h2>{{curentPokemon.name}}</h2>
-        <h2 v-for="item in curentPokemonTypes" :key="item.type">{{item.name}}</h2>
+        <div class="types">
+          <div class="type">
+            <span v-for="item in curentPokemon.types" :key="item.type.name" :class=item.type.name>{{item.type.name}}</span>
+          </div>
+        </div>
+        <span v-for="item in curentPokemon.abilities" :key="item.ability.name" class="ability left">{{item.ability.name}}</span>
+        <h3 class="left">{{curentPokemon.height}} metres</h3>
+        <h3 class="left">{{curentPokemon.weight}} kg</h3>
+        <h3>{{curentPokemon.base_experience}} XP</h3>
       </div>
       <button class="close" v-on:click="closedetails()">Fermer</button>
     </div>
@@ -12,22 +20,19 @@
 </template>
 
 <script>
+import axios from 'axios'
 import config from '../config/config.json'
-import axios from 'axios';
 export default {
   props: ['pokemonURL'],
   data:() => {
     return {
       curentPokemon: {},
-      curentPokemonTypes: {},
       img_url: config.IMG_URL
     }
   },
-  mounted(){
-    axios.get(this._props.pokemonURL).then((response)=>{
-      console.log(this._props.pokemonURL)
-      this._data.curentPokemon = response.data;
-      console.log(this._data.curentPokemon.types)
+    created(){
+    axios.get(this.pokemonURL).then((response)=>{
+      this.curentPokemon = response.data
     })
   },
   methods: {

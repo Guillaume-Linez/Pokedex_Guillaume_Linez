@@ -1,9 +1,18 @@
 <template>
-  <div class="searchbar"></div>
+  <div class="searchbar">
+    <input placeholder="Charizard" v-model="seachValue">
+    <p>{{seachValue}}</p>
+  </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data:() => {
+    return {
+      recherche : ""
+    }
+  },
+};
 </script>
 
 <style scoped>
